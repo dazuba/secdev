@@ -1,14 +1,24 @@
-from fastapi import FastAPI, HTTPException, Request
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI, HTTPException, Request, status
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
-app = FastAPI(title="SecDev Course App", version="0.1.0")
+from app.database import init_db
+from app.errors import ApiError
+from app.routers import auth_router, features_router
 
 
-class ApiError(Exception):
-    def __init__(self, code: str, message: str, status: int = 400):
-        self.code = code
-        self.message = message
-        self.status = status
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    init_db()
+    yield
+    # Shutdown (if needed)
+
+
+app = FastAPI(title="Feature Votes API", version="0.1.0", lifespan=lifespan)
 
 
 @app.exception_handler(ApiError)
@@ -29,29 +39,34 @@ async def http_exception_handler(request: Request, exc: HTTPException):
     )
 
 
+@app.exception_handler(StarletteHTTPException)
+async def starlette_http_exception_handler(request: Request, exc: StarletteHTTPException):
+    # Handle 404 Not Found for routes that don't exist
+    if exc.status_code == status.HTTP_404_NOT_FOUND:
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND,
+            content={"error": {"code": "not_found", "message": "Not Found"}},
+        )
+    detail = exc.detail if isinstance(exc.detail, str) else "http_error"
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"error": {"code": "http_error", "message": detail}},
+    )
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    # Normalize FastAPI validation errors into our error envelope
+    return JSONResponse(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        content={"error": {"code": "validation_error", "message": "Validation error"}},
+    )
+
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
 
 
-# Example minimal entity (for tests/demo)
-_DB = {"items": []}
-
-
-@app.post("/items")
-def create_item(name: str):
-    if not name or len(name) > 100:
-        raise ApiError(
-            code="validation_error", message="name must be 1..100 chars", status=422
-        )
-    item = {"id": len(_DB["items"]) + 1, "name": name}
-    _DB["items"].append(item)
-    return item
-
-
-@app.get("/items/{item_id}")
-def get_item(item_id: int):
-    for it in _DB["items"]:
-        if it["id"] == item_id:
-            return it
-    raise ApiError(code="not_found", message="item not found", status=404)
+app.include_router(auth_router)
+app.include_router(features_router)
