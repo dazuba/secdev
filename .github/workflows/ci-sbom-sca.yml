@@ -1,0 +1,65 @@
+name: Security - SBOM & SCA
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "**/*.py"
+      - "requirements*.txt"
+      - ".github/workflows/ci-sbom-sca.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sbom_sca:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure evidence dirs
+        run: mkdir -p EVIDENCE/P09
+
+      - name: Generate SBOM (Syft CycloneDX)
+        run: |
+          docker run --rm -v $PWD:/work -w /work anchore/syft:v1.21.0 \
+            scan dir:. -o cyclonedx-json --file EVIDENCE/P09/sbom.json
+
+      - name: SCA Scan (Grype)
+        run: |
+          set -e
+          docker run --rm -v $PWD:/work -w /work anchore/grype:v0.85.0 \
+            sbom:/work/EVIDENCE/P09/sbom.json -o json > EVIDENCE/P09/sca_report.json
+
+      - name: Generate SCA summary
+        run: |
+          echo "# SCA Summary Report" > EVIDENCE/P09/sca_summary.md
+          echo "" >> EVIDENCE/P09/sca_summary.md
+          echo "**Generated:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> EVIDENCE/P09/sca_summary.md
+          echo "**Commit:** ${{ github.sha }}" >> EVIDENCE/P09/sca_summary.md
+          echo "**Job:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> EVIDENCE/P09/sca_summary.md
+          echo "" >> EVIDENCE/P09/sca_summary.md
+          echo "## Severity Distribution" >> EVIDENCE/P09/sca_summary.md
+          echo "" >> EVIDENCE/P09/sca_summary.md
+          jq -r '[.matches[].vulnerability.severity] | group_by(.) | map({severity: .[0], count: length}) | sort_by(.severity) | .[] | "- **\(.severity)**: \(.count)"' \
+            EVIDENCE/P09/sca_report.json >> EVIDENCE/P09/sca_summary.md || echo "No vulnerabilities found" >> EVIDENCE/P09/sca_summary.md
+          echo "" >> EVIDENCE/P09/sca_summary.md
+          echo "## Critical and High Severity Issues" >> EVIDENCE/P09/sca_summary.md
+          echo "" >> EVIDENCE/P09/sca_summary.md
+          jq -r '.matches[] | select(.vulnerability.severity == "Critical" or .vulnerability.severity == "High") | "### \(.vulnerability.id) - \(.artifact.name)@\(.artifact.version)\n- **Severity**: \(.vulnerability.severity)\n- **Fixed in**: \(.vulnerability.fix.versions // ["None"] | join(", "))\n- **Description**: \(.vulnerability.description // "N/A")\n"' \
+            EVIDENCE/P09/sca_report.json >> EVIDENCE/P09/sca_summary.md || echo "No Critical/High severity vulnerabilities found" >> EVIDENCE/P09/sca_summary.md
+
+      - name: Upload SBOM/SCA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: P09_EVIDENCE
+          path: EVIDENCE/P09
+          retention-days: 90

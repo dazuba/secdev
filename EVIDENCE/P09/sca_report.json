@@ -1,0 +1,955 @@
+{
+ "matches": [
+  {
+   "vulnerability": {
+    "id": "GHSA-wj6h-64fc-37mp",
+    "dataSource": "https://github.com/advisories/GHSA-wj6h-64fc-37mp",
+    "namespace": "github:language:python",
+    "severity": "High",
+    "urls": [
+     "https://github.com/advisories/GHSA-wj6h-64fc-37mp"
+    ],
+    "description": "Minerva timing attack on P-256 in python-ecdsa",
+    "cvss": [
+     {
+      "version": "3.1",
+      "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
+      "metrics": {
+       "baseScore": 7.4,
+       "exploitabilityScore": 2.2,
+       "impactScore": 5.2
+      },
+      "vendorMetadata": {
+       "base_severity": "High",
+       "status": "N/A"
+      }
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "not-fixed"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [
+    {
+     "id": "CVE-2024-23342",
+     "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2024-23342",
+     "namespace": "nvd:cpe",
+     "severity": "High",
+     "urls": [
+      "https://github.com/tlsfuzzer/python-ecdsa/blob/master/SECURITY.md",
+      "https://github.com/tlsfuzzer/python-ecdsa/security/advisories/GHSA-wj6h-64fc-37mp",
+      "https://minerva.crocs.fi.muni.cz/",
+      "https://securitypitfalls.wordpress.com/2018/08/03/constant-time-compare-in-python/",
+      "https://github.com/tlsfuzzer/python-ecdsa/blob/master/SECURITY.md",
+      "https://github.com/tlsfuzzer/python-ecdsa/security/advisories/GHSA-wj6h-64fc-37mp",
+      "https://minerva.crocs.fi.muni.cz/",
+      "https://securitypitfalls.wordpress.com/2018/08/03/constant-time-compare-in-python/"
+     ],
+     "description": "The `ecdsa` PyPI package is a pure Python implementation of ECC (Elliptic Curve Cryptography) with support for ECDSA (Elliptic Curve Digital Signature Algorithm), EdDSA (Edwards-curve Digital Signature Algorithm) and ECDH (Elliptic Curve Diffie-Hellman). Versions 0.18.0 and prior are vulnerable to the Minerva attack. As of time of publication, no known patched version exists.",
+     "cvss": [
+      {
+       "source": "security-advisories@github.com",
+       "type": "Secondary",
+       "version": "3.1",
+       "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
+       "metrics": {
+        "baseScore": 7.4,
+        "exploitabilityScore": 2.2,
+        "impactScore": 5.2
+       },
+       "vendorMetadata": {}
+      },
+      {
+       "source": "nvd@nist.gov",
+       "type": "Primary",
+       "version": "3.1",
+       "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
+       "metrics": {
+        "baseScore": 7.4,
+        "exploitabilityScore": 2.2,
+        "impactScore": 5.2
+       },
+       "vendorMetadata": {}
+      }
+     ]
+    }
+   ],
+   "matchDetails": [
+    {
+     "type": "exact-direct-match",
+     "matcher": "python-matcher",
+     "searchedBy": {
+      "language": "python",
+      "namespace": "github:language:python",
+      "package": {
+       "name": "ecdsa",
+       "version": "0.19.1"
+      }
+     },
+     "found": {
+      "versionConstraint": ">=0 (python)",
+      "vulnerabilityID": "GHSA-wj6h-64fc-37mp"
+     }
+    }
+   ],
+   "artifact": {
+    "id": "66af0dd9cd3feeec",
+    "name": "ecdsa",
+    "version": "0.19.1",
+    "type": "python",
+    "locations": [
+     {
+      "path": "/.venv/lib/python3.9/site-packages/ecdsa-0.19.1.dist-info/METADATA"
+     },
+     {
+      "path": "/.venv/lib/python3.9/site-packages/ecdsa-0.19.1.dist-info/RECORD"
+     },
+     {
+      "path": "/.venv/lib/python3.9/site-packages/ecdsa-0.19.1.dist-info/top_level.txt"
+     }
+    ],
+    "language": "python",
+    "licenses": [
+     "MIT"
+    ],
+    "cpes": [
+     "cpe:2.3:a:tlsfuzzer:ecdsa:0.19.1:*:*:*:*:python:*:*"
+    ],
+    "purl": "pkg:pypi/ecdsa@0.19.1",
+    "upstreams": []
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "GHSA-w853-jp5j-5j7f",
+    "dataSource": "https://github.com/advisories/GHSA-w853-jp5j-5j7f",
+    "namespace": "github:language:python",
+    "severity": "Medium",
+    "urls": [
+     "https://github.com/advisories/GHSA-w853-jp5j-5j7f"
+    ],
+    "description": "filelock has a TOCTOU race condition which allows symlink attacks during lock file creation",
+    "cvss": [
+     {
+      "version": "3.1",
+      "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:N/I:H/A:H",
+      "metrics": {
+       "baseScore": 6.3,
+       "exploitabilityScore": 1,
+       "impactScore": 5.2
+      },
+      "vendorMetadata": {
+       "base_severity": "Medium",
+       "status": "N/A"
+      }
+     }
+    ],
+    "fix": {
+     "versions": [
+      "3.20.1"
+     ],
+     "state": "fixed"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [
+    {
+     "id": "CVE-2025-68146",
+     "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2025-68146",
+     "namespace": "nvd:cpe",
+     "severity": "Medium",
+     "urls": [
+      "https://github.com/tox-dev/filelock/commit/4724d7f8c3393ec1f048c93933e6e3e6ec321f0e",
+      "https://github.com/tox-dev/filelock/pull/461",
+      "https://github.com/tox-dev/filelock/releases/tag/3.20.1",
+      "https://github.com/tox-dev/filelock/security/advisories/GHSA-w853-jp5j-5j7f"
+     ],
+     "description": "filelock is a platform-independent file lock for Python. In versions prior to 3.20.1, a Time-of-Check-Time-of-Use (TOCTOU) race condition allows local attackers to corrupt or truncate arbitrary user files through symlink attacks. The vulnerability exists in both Unix and Windows lock file creation where filelock checks if a file exists before opening it with O_TRUNC. An attacker can create a symlink pointing to a victim file in the time gap between the check and open, causing os.open() to follow the symlink and truncate the target file. All users of filelock on Unix, Linux, macOS, and Windows systems are impacted. The vulnerability cascades to dependent libraries. The attack requires local filesystem access and ability to create symlinks (standard user permissions on Unix; Developer Mode on Windows 10+). Exploitation succeeds within 1-3 attempts when lock file paths are predictable. The issue is fixed in version 3.20.1. If immediate upgrade is not possible, use SoftFileLock instead of UnixFileLock/WindowsFileLock (note: different locking semantics, may not be suitable for all use cases); ensure lock file directories have restrictive permissions (chmod 0700) to prevent untrusted users from creating symlinks; and/or monitor lock file directories for suspicious symlinks before running trusted applications. These workarounds provide only partial mitigation. The race condition remains exploitable. Upgrading to version 3.20.1 is strongly recommended.",
+     "cvss": [
+      {
+       "source": "security-advisories@github.com",
+       "type": "Secondary",
+       "version": "3.1",
+       "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:N/I:H/A:H",
+       "metrics": {
+        "baseScore": 6.3,
+        "exploitabilityScore": 1,
+        "impactScore": 5.2
+       },
+       "vendorMetadata": {}
+      }
+     ]
+    }
+   ],
+   "matchDetails": [
+    {
+     "type": "exact-direct-match",
+     "matcher": "python-matcher",
+     "searchedBy": {
+      "language": "python",
+      "namespace": "github:language:python",
+      "package": {
+       "name": "filelock",
+       "version": "3.19.1"
+      }
+     },
+     "found": {
+      "versionConstraint": "<3.20.1 (python)",
+      "vulnerabilityID": "GHSA-w853-jp5j-5j7f"
+     }
+    }
+   ],
+   "artifact": {
+    "id": "5120d0f2af11417c",
+    "name": "filelock",
+    "version": "3.19.1",
+    "type": "python",
+    "locations": [
+     {
+      "path": "/.venv/lib/python3.9/site-packages/filelock-3.19.1.dist-info/METADATA"
+     },
+     {
+      "path": "/.venv/lib/python3.9/site-packages/filelock-3.19.1.dist-info/RECORD"
+     }
+    ],
+    "language": "python",
+    "licenses": [
+     "Unlicense"
+    ],
+    "cpes": [
+     "cpe:2.3:a:python-filelock:python-filelock:3.19.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:python-filelock:python_filelock:3.19.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:python_filelock:python-filelock:3.19.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:python_filelock:python_filelock:3.19.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:filelock:python-filelock:3.19.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:filelock:python_filelock:3.19.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:python-filelock:filelock:3.19.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:python_filelock:filelock:3.19.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:python:python-filelock:3.19.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:python:python_filelock:3.19.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:filelock:filelock:3.19.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:python:filelock:3.19.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:pypi/filelock@3.19.1",
+    "upstreams": []
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "GHSA-r9hx-vwmv-q579",
+    "dataSource": "https://github.com/advisories/GHSA-r9hx-vwmv-q579",
+    "namespace": "github:language:python",
+    "severity": "High",
+    "urls": [
+     "https://github.com/advisories/GHSA-r9hx-vwmv-q579"
+    ],
+    "description": "pypa/setuptools vulnerable to Regular Expression Denial of Service (ReDoS)",
+    "cvss": [
+     {
+      "version": "3.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "metrics": {
+       "baseScore": 7.5,
+       "exploitabilityScore": 3.9,
+       "impactScore": 3.6
+      },
+      "vendorMetadata": {
+       "base_severity": "High",
+       "status": "N/A"
+      }
+     }
+    ],
+    "fix": {
+     "versions": [
+      "65.5.1"
+     ],
+     "state": "fixed"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [
+    {
+     "id": "CVE-2022-40897",
+     "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2022-40897",
+     "namespace": "nvd:cpe",
+     "severity": "Medium",
+     "urls": [
+      "https://github.com/pypa/setuptools/blob/fe8a98e696241487ba6ac9f91faa38ade939ec5d/setuptools/package_index.py#L200",
+      "https://github.com/pypa/setuptools/commit/43a9c9bfa6aa626ec2a22540bea28d2ca77964be",
+      "https://github.com/pypa/setuptools/compare/v65.5.0...v65.5.1",
+      "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/ADES3NLOE5QJKBLGNZNI2RGVOSQXA37R/",
+      "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/YNA2BAH2ACBZ4TVJZKFLCR7L23BG5C3H/",
+      "https://pyup.io/posts/pyup-discovers-redos-vulnerabilities-in-top-python-packages/",
+      "https://pyup.io/vulnerabilities/CVE-2022-40897/52495/",
+      "https://security.netapp.com/advisory/ntap-20230214-0001/",
+      "https://security.netapp.com/advisory/ntap-20240621-0006/",
+      "https://github.com/pypa/setuptools/blob/fe8a98e696241487ba6ac9f91faa38ade939ec5d/setuptools/package_index.py#L200",
+      "https://github.com/pypa/setuptools/commit/43a9c9bfa6aa626ec2a22540bea28d2ca77964be",
+      "https://github.com/pypa/setuptools/compare/v65.5.0...v65.5.1",
+      "https://lists.debian.org/debian-lts-announce/2024/09/msg00018.html",
+      "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/ADES3NLOE5QJKBLGNZNI2RGVOSQXA37R/",
+      "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/YNA2BAH2ACBZ4TVJZKFLCR7L23BG5C3H/",
+      "https://pyup.io/posts/pyup-discovers-redos-vulnerabilities-in-top-python-packages/",
+      "https://pyup.io/vulnerabilities/CVE-2022-40897/52495/",
+      "https://security.netapp.com/advisory/ntap-20230214-0001/",
+      "https://security.netapp.com/advisory/ntap-20240621-0006/"
+     ],
+     "description": "Python Packaging Authority (PyPA) setuptools before 65.5.1 allows remote attackers to cause a denial of service via HTML in a crafted package or custom PackageIndex page. There is a Regular Expression Denial of Service (ReDoS) in package_index.py.",
+     "cvss": [
+      {
+       "source": "nvd@nist.gov",
+       "type": "Primary",
+       "version": "3.1",
+       "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+       "metrics": {
+        "baseScore": 5.9,
+        "exploitabilityScore": 2.2,
+        "impactScore": 3.6
+       },
+       "vendorMetadata": {}
+      },
+      {
+       "source": "134c704f-9b21-4f2e-91b3-4a467353bcc0",
+       "type": "Secondary",
+       "version": "3.1",
+       "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+       "metrics": {
+        "baseScore": 5.9,
+        "exploitabilityScore": 2.2,
+        "impactScore": 3.6
+       },
+       "vendorMetadata": {}
+      }
+     ]
+    }
+   ],
+   "matchDetails": [
+    {
+     "type": "exact-direct-match",
+     "matcher": "python-matcher",
+     "searchedBy": {
+      "language": "python",
+      "namespace": "github:language:python",
+      "package": {
+       "name": "setuptools",
+       "version": "58.0.4"
+      }
+     },
+     "found": {
+      "versionConstraint": "<65.5.1 (python)",
+      "vulnerabilityID": "GHSA-r9hx-vwmv-q579"
+     }
+    }
+   ],
+   "artifact": {
+    "id": "d4a7ac3c66c340cd",
+    "name": "setuptools",
+    "version": "58.0.4",
+    "type": "python",
+    "locations": [
+     {
+      "path": "/.venv/lib/python3.9/site-packages/setuptools-58.0.4.dist-info/METADATA"
+     },
+     {
+      "path": "/.venv/lib/python3.9/site-packages/setuptools-58.0.4.dist-info/RECORD"
+     },
+     {
+      "path": "/.venv/lib/python3.9/site-packages/setuptools-58.0.4.dist-info/top_level.txt"
+     }
+    ],
+    "language": "python",
+    "licenses": [
+     "UNKNOWN"
+    ],
+    "cpes": [
+     "cpe:2.3:a:python:setuptools:58.0.4:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:pypi/setuptools@58.0.4",
+    "upstreams": []
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "GHSA-cx63-2mw6-8hw5",
+    "dataSource": "https://github.com/advisories/GHSA-cx63-2mw6-8hw5",
+    "namespace": "github:language:python",
+    "severity": "High",
+    "urls": [
+     "https://github.com/advisories/GHSA-cx63-2mw6-8hw5"
+    ],
+    "description": "setuptools vulnerable to Command Injection via package URL",
+    "cvss": [
+     {
+      "version": "3.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+      "metrics": {
+       "baseScore": 8.8,
+       "exploitabilityScore": 2.8,
+       "impactScore": 5.9
+      },
+      "vendorMetadata": {
+       "base_severity": "High",
+       "status": "N/A"
+      }
+     }
+    ],
+    "fix": {
+     "versions": [
+      "70.0.0"
+     ],
+     "state": "fixed"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [
+    {
+     "id": "CVE-2024-6345",
+     "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2024-6345",
+     "namespace": "nvd:cpe",
+     "severity": "High",
+     "urls": [
+      "https://github.com/pypa/setuptools/commit/88807c7062788254f654ea8c03427adc859321f0",
+      "https://huntr.com/bounties/d6362117-ad57-4e83-951f-b8141c6e7ca5",
+      "https://github.com/pypa/setuptools/commit/88807c7062788254f654ea8c03427adc859321f0",
+      "https://huntr.com/bounties/d6362117-ad57-4e83-951f-b8141c6e7ca5",
+      "https://lists.debian.org/debian-lts-announce/2024/09/msg00018.html"
+     ],
+     "description": "A vulnerability in the package_index module of pypa/setuptools versions up to 69.1.1 allows for remote code execution via its download functions. These functions, which are used to download packages from URLs provided by users or retrieved from package index servers, are susceptible to code injection. If these functions are exposed to user-controlled inputs, such as package URLs, they can execute arbitrary commands on the system. The issue is fixed in version 70.0.",
+     "cvss": [
+      {
+       "source": "security@huntr.dev",
+       "type": "Secondary",
+       "version": "3.0",
+       "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+       "metrics": {
+        "baseScore": 8.8,
+        "exploitabilityScore": 2.8,
+        "impactScore": 5.9
+       },
+       "vendorMetadata": {}
+      }
+     ]
+    }
+   ],
+   "matchDetails": [
+    {
+     "type": "exact-direct-match",
+     "matcher": "python-matcher",
+     "searchedBy": {
+      "language": "python",
+      "namespace": "github:language:python",
+      "package": {
+       "name": "setuptools",
+       "version": "58.0.4"
+      }
+     },
+     "found": {
+      "versionConstraint": "<70.0.0 (python)",
+      "vulnerabilityID": "GHSA-cx63-2mw6-8hw5"
+     }
+    }
+   ],
+   "artifact": {
+    "id": "d4a7ac3c66c340cd",
+    "name": "setuptools",
+    "version": "58.0.4",
+    "type": "python",
+    "locations": [
+     {
+      "path": "/.venv/lib/python3.9/site-packages/setuptools-58.0.4.dist-info/METADATA"
+     },
+     {
+      "path": "/.venv/lib/python3.9/site-packages/setuptools-58.0.4.dist-info/RECORD"
+     },
+     {
+      "path": "/.venv/lib/python3.9/site-packages/setuptools-58.0.4.dist-info/top_level.txt"
+     }
+    ],
+    "language": "python",
+    "licenses": [
+     "UNKNOWN"
+    ],
+    "cpes": [
+     "cpe:2.3:a:python:setuptools:58.0.4:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:pypi/setuptools@58.0.4",
+    "upstreams": []
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "GHSA-5rjg-fvgr-3xxf",
+    "dataSource": "https://github.com/advisories/GHSA-5rjg-fvgr-3xxf",
+    "namespace": "github:language:python",
+    "severity": "High",
+    "urls": [
+     "https://github.com/advisories/GHSA-5rjg-fvgr-3xxf"
+    ],
+    "description": "setuptools has a path traversal vulnerability in PackageIndex.download that leads to Arbitrary File Write",
+    "cvss": [],
+    "fix": {
+     "versions": [
+      "78.1.1"
+     ],
+     "state": "fixed"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [
+    {
+     "id": "CVE-2025-47273",
+     "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2025-47273",
+     "namespace": "nvd:cpe",
+     "severity": "High",
+     "urls": [
+      "https://github.com/pypa/setuptools/blob/6ead555c5fb29bc57fe6105b1bffc163f56fd558/setuptools/package_index.py#L810C1-L825C88",
+      "https://github.com/pypa/setuptools/commit/250a6d17978f9f6ac3ac887091f2d32886fbbb0b",
+      "https://github.com/pypa/setuptools/issues/4946",
+      "https://github.com/pypa/setuptools/security/advisories/GHSA-5rjg-fvgr-3xxf",
+      "https://lists.debian.org/debian-lts-announce/2025/05/msg00035.html",
+      "https://github.com/pypa/setuptools/issues/4946"
+     ],
+     "description": "setuptools is a package that allows users to download, build, install, upgrade, and uninstall Python packages. A path traversal vulnerability in `PackageIndex` is present in setuptools prior to version 78.1.1. An attacker would be allowed to write files to arbitrary locations on the filesystem with the permissions of the process running the Python code, which could escalate to remote code execution depending on the context. Version 78.1.1 fixes the issue.",
+     "cvss": [
+      {
+       "source": "nvd@nist.gov",
+       "type": "Primary",
+       "version": "3.1",
+       "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+       "metrics": {
+        "baseScore": 8.8,
+        "exploitabilityScore": 2.8,
+        "impactScore": 5.9
+       },
+       "vendorMetadata": {}
+      },
+      {
+       "source": "security-advisories@github.com",
+       "type": "Secondary",
+       "version": "4.0",
+       "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+       "metrics": {
+        "baseScore": 7.7
+       },
+       "vendorMetadata": {}
+      }
+     ]
+    }
+   ],
+   "matchDetails": [
+    {
+     "type": "exact-direct-match",
+     "matcher": "python-matcher",
+     "searchedBy": {
+      "language": "python",
+      "namespace": "github:language:python",
+      "package": {
+       "name": "setuptools",
+       "version": "58.0.4"
+      }
+     },
+     "found": {
+      "versionConstraint": "<78.1.1 (python)",
+      "vulnerabilityID": "GHSA-5rjg-fvgr-3xxf"
+     }
+    }
+   ],
+   "artifact": {
+    "id": "d4a7ac3c66c340cd",
+    "name": "setuptools",
+    "version": "58.0.4",
+    "type": "python",
+    "locations": [
+     {
+      "path": "/.venv/lib/python3.9/site-packages/setuptools-58.0.4.dist-info/METADATA"
+     },
+     {
+      "path": "/.venv/lib/python3.9/site-packages/setuptools-58.0.4.dist-info/RECORD"
+     },
+     {
+      "path": "/.venv/lib/python3.9/site-packages/setuptools-58.0.4.dist-info/top_level.txt"
+     }
+    ],
+    "language": "python",
+    "licenses": [
+     "UNKNOWN"
+    ],
+    "cpes": [
+     "cpe:2.3:a:python:setuptools:58.0.4:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:pypi/setuptools@58.0.4",
+    "upstreams": []
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "GHSA-7f5h-v6xp-fcq8",
+    "dataSource": "https://github.com/advisories/GHSA-7f5h-v6xp-fcq8",
+    "namespace": "github:language:python",
+    "severity": "High",
+    "urls": [
+     "https://github.com/advisories/GHSA-7f5h-v6xp-fcq8"
+    ],
+    "description": "Starlette vulnerable to O(n^2) DoS via Range header merging in ``starlette.responses.FileResponse``",
+    "cvss": [
+     {
+      "version": "3.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "metrics": {
+       "baseScore": 7.5,
+       "exploitabilityScore": 3.9,
+       "impactScore": 3.6
+      },
+      "vendorMetadata": {
+       "base_severity": "High",
+       "status": "N/A"
+      }
+     }
+    ],
+    "fix": {
+     "versions": [
+      "0.49.1"
+     ],
+     "state": "fixed"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [
+    {
+     "id": "CVE-2025-62727",
+     "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2025-62727",
+     "namespace": "nvd:cpe",
+     "severity": "High",
+     "urls": [
+      "https://github.com/Kludex/starlette/commit/4ea6e22b489ec388d6004cfbca52dd5b147127c5",
+      "https://github.com/Kludex/starlette/commit/69ed26a85956ef4bd0161807eb27abf49be7cd3c",
+      "https://github.com/Kludex/starlette/releases/tag/0.49.1",
+      "https://github.com/Kludex/starlette/security/advisories/GHSA-7f5h-v6xp-fcq8",
+      "https://github.com/Kludex/starlette/security/advisories/GHSA-7f5h-v6xp-fcq8"
+     ],
+     "description": "Starlette is a lightweight ASGI framework/toolkit. Starting in version 0.39.0 and prior to version 0.49.1 , an unauthenticated attacker can send a crafted HTTP Range header that triggers quadratic-time processing in Starlette's FileResponse Range parsing/merging logic. This enables CPU exhaustion per request, causing denial‑of‑service for endpoints serving files (e.g., StaticFiles or any use of FileResponse). This vulnerability is fixed in 0.49.1.",
+     "cvss": [
+      {
+       "source": "security-advisories@github.com",
+       "type": "Secondary",
+       "version": "3.1",
+       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+       "metrics": {
+        "baseScore": 7.5,
+        "exploitabilityScore": 3.9,
+        "impactScore": 3.6
+       },
+       "vendorMetadata": {}
+      }
+     ]
+    }
+   ],
+   "matchDetails": [
+    {
+     "type": "exact-direct-match",
+     "matcher": "python-matcher",
+     "searchedBy": {
+      "language": "python",
+      "namespace": "github:language:python",
+      "package": {
+       "name": "starlette",
+       "version": "0.41.3"
+      }
+     },
+     "found": {
+      "versionConstraint": ">=0.39.0,<=0.49.0 (python)",
+      "vulnerabilityID": "GHSA-7f5h-v6xp-fcq8"
+     }
+    }
+   ],
+   "artifact": {
+    "id": "ad6fbfa181c88e8c",
+    "name": "starlette",
+    "version": "0.41.3",
+    "type": "python",
+    "locations": [
+     {
+      "path": "/.venv/lib/python3.9/site-packages/starlette-0.41.3.dist-info/METADATA"
+     },
+     {
+      "path": "/.venv/lib/python3.9/site-packages/starlette-0.41.3.dist-info/RECORD"
+     }
+    ],
+    "language": "python",
+    "licenses": [
+     "BSD-3-Clause"
+    ],
+    "cpes": [
+     "cpe:2.3:a:encode:starlette:0.41.3:*:*:*:*:python:*:*"
+    ],
+    "purl": "pkg:pypi/starlette@0.41.3",
+    "upstreams": []
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "GHSA-2c2j-9gv5-cj73",
+    "dataSource": "https://github.com/advisories/GHSA-2c2j-9gv5-cj73",
+    "namespace": "github:language:python",
+    "severity": "Medium",
+    "urls": [
+     "https://github.com/advisories/GHSA-2c2j-9gv5-cj73"
+    ],
+    "description": "Starlette has possible denial-of-service vector when parsing large files in multipart forms",
+    "cvss": [
+     {
+      "version": "3.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+      "metrics": {
+       "baseScore": 5.3,
+       "exploitabilityScore": 3.9,
+       "impactScore": 1.4
+      },
+      "vendorMetadata": {
+       "base_severity": "Medium",
+       "status": "N/A"
+      }
+     }
+    ],
+    "fix": {
+     "versions": [
+      "0.47.2"
+     ],
+     "state": "fixed"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [
+    {
+     "id": "CVE-2025-54121",
+     "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2025-54121",
+     "namespace": "nvd:cpe",
+     "severity": "Medium",
+     "urls": [
+      "https://github.com/encode/starlette/blob/fa5355442753f794965ae1af0f87f9fec1b9a3de/starlette/datastructures.py#L436C5-L447C14",
+      "https://github.com/encode/starlette/commit/9f7ec2eb512fcc3fe90b43cb9dd9e1d08696bec1",
+      "https://github.com/encode/starlette/discussions/2927#discussioncomment-13721403",
+      "https://github.com/encode/starlette/security/advisories/GHSA-2c2j-9gv5-cj73"
+     ],
+     "description": "Starlette is a lightweight ASGI (Asynchronous Server Gateway Interface) framework/toolkit, designed for building async web services in Python. In versions 0.47.1 and below, when parsing a multi-part form with large files (greater than the default max spool size) starlette will block the main thread to roll the file over to disk. This blocks the event thread which means the application can't accept new connections. The UploadFile code has a minor bug where instead of just checking for self._in_memory, the logic should also check if the additional bytes will cause a rollover. The vulnerability is fixed in version 0.47.2.",
+     "cvss": [
+      {
+       "source": "security-advisories@github.com",
+       "type": "Secondary",
+       "version": "3.1",
+       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+       "metrics": {
+        "baseScore": 5.3,
+        "exploitabilityScore": 3.9,
+        "impactScore": 1.4
+       },
+       "vendorMetadata": {}
+      }
+     ]
+    }
+   ],
+   "matchDetails": [
+    {
+     "type": "exact-direct-match",
+     "matcher": "python-matcher",
+     "searchedBy": {
+      "language": "python",
+      "namespace": "github:language:python",
+      "package": {
+       "name": "starlette",
+       "version": "0.41.3"
+      }
+     },
+     "found": {
+      "versionConstraint": "<0.47.2 (python)",
+      "vulnerabilityID": "GHSA-2c2j-9gv5-cj73"
+     }
+    }
+   ],
+   "artifact": {
+    "id": "ad6fbfa181c88e8c",
+    "name": "starlette",
+    "version": "0.41.3",
+    "type": "python",
+    "locations": [
+     {
+      "path": "/.venv/lib/python3.9/site-packages/starlette-0.41.3.dist-info/METADATA"
+     },
+     {
+      "path": "/.venv/lib/python3.9/site-packages/starlette-0.41.3.dist-info/RECORD"
+     }
+    ],
+    "language": "python",
+    "licenses": [
+     "BSD-3-Clause"
+    ],
+    "cpes": [
+     "cpe:2.3:a:encode:starlette:0.41.3:*:*:*:*:python:*:*"
+    ],
+    "purl": "pkg:pypi/starlette@0.41.3",
+    "upstreams": []
+   }
+  }
+ ],
+ "source": {
+  "type": "file",
+  "target": "."
+ },
+ "distro": {
+  "name": "",
+  "version": "",
+  "idLike": null
+ },
+ "descriptor": {
+  "name": "grype",
+  "version": "0.85.0",
+  "configuration": {
+   "output": [
+    "json"
+   ],
+   "file": "",
+   "distro": "",
+   "add-cpes-if-none": false,
+   "output-template-file": "",
+   "check-for-app-update": true,
+   "only-fixed": false,
+   "only-notfixed": false,
+   "ignore-wontfix": "",
+   "platform": "",
+   "search": {
+    "scope": "squashed",
+    "unindexed-archives": false,
+    "indexed-archives": true
+   },
+   "ignore": [
+    {
+     "vulnerability": "",
+     "reason": "",
+     "namespace": "",
+     "fix-state": "",
+     "package": {
+      "name": "kernel-headers",
+      "version": "",
+      "language": "",
+      "type": "rpm",
+      "location": "",
+      "upstream-name": "kernel"
+     },
+     "vex-status": "",
+     "vex-justification": "",
+     "match-type": "exact-indirect-match"
+    },
+    {
+     "vulnerability": "",
+     "reason": "",
+     "namespace": "",
+     "fix-state": "",
+     "package": {
+      "name": "linux-headers-.*",
+      "version": "",
+      "language": "",
+      "type": "deb",
+      "location": "",
+      "upstream-name": "linux"
+     },
+     "vex-status": "",
+     "vex-justification": "",
+     "match-type": "exact-indirect-match"
+    },
+    {
+     "vulnerability": "",
+     "reason": "",
+     "namespace": "",
+     "fix-state": "",
+     "package": {
+      "name": "linux-libc-dev",
+      "version": "",
+      "language": "",
+      "type": "deb",
+      "location": "",
+      "upstream-name": "linux"
+     },
+     "vex-status": "",
+     "vex-justification": "",
+     "match-type": "exact-indirect-match"
+    }
+   ],
+   "exclude": [],
+   "db": {
+    "cache-dir": "/.cache/grype/db",
+    "update-url": "https://toolbox-data.anchore.io/grype/databases/listing.json",
+    "ca-cert": "",
+    "auto-update": true,
+    "validate-by-hash-on-start": false,
+    "validate-age": true,
+    "max-allowed-built-age": 432000000000000,
+    "require-update-check": false,
+    "update-available-timeout": 30000000000,
+    "update-download-timeout": 300000000000,
+    "max-update-check-frequency": 7200000000000
+   },
+   "externalSources": {
+    "enable": false,
+    "maven": {
+     "searchUpstreamBySha1": true,
+     "baseUrl": "https://search.maven.org/solrsearch/select"
+    }
+   },
+   "match": {
+    "java": {
+     "using-cpes": false
+    },
+    "jvm": {
+     "using-cpes": true
+    },
+    "dotnet": {
+     "using-cpes": false
+    },
+    "golang": {
+     "using-cpes": false,
+     "always-use-cpe-for-stdlib": true,
+     "allow-main-module-pseudo-version-comparison": false
+    },
+    "javascript": {
+     "using-cpes": false
+    },
+    "python": {
+     "using-cpes": false
+    },
+    "ruby": {
+     "using-cpes": false
+    },
+    "rust": {
+     "using-cpes": false
+    },
+    "stock": {
+     "using-cpes": true
+    }
+   },
+   "fail-on-severity": "",
+   "registry": {
+    "insecure-skip-tls-verify": false,
+    "insecure-use-http": false,
+    "auth": null,
+    "ca-cert": ""
+   },
+   "show-suppressed": false,
+   "by-cve": false,
+   "name": "",
+   "default-image-pull-source": "",
+   "vex-documents": [],
+   "vex-add": [],
+   "match-upstream-kernel-headers": false
+  },
+  "db": {
+   "built": "2025-12-18T00:21:29Z",
+   "schemaVersion": 5,
+   "location": "/.cache/grype/db/5",
+   "checksum": "sha256:f899c1d4df1322246a325cc18b6701a0933a221db6437739e3c285598d99a67a",
+   "error": null
+  },
+  "timestamp": "2025-12-18T15:22:39.63247747Z"
+ }
+}
