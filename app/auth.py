@@ -11,7 +11,9 @@ from sqlalchemy.orm import Session
 from app import models
 from app.database import get_db
 
-SECRET_KEY = os.getenv("JWT_SECRET", "your-secret-key-change-in-production")
+SECRET_KEY = os.getenv("JWT_SECRET")
+if not SECRET_KEY:
+    raise ValueError("JWT_SECRET environment variable must be set")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
