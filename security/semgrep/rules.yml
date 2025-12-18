@@ -1,0 +1,78 @@
+rules:
+  - id: hardcoded-secret-key
+    languages: [python]
+    message: "Hardcoded SECRET_KEY detected. Use environment variable without default fallback in production."
+    severity: ERROR
+    patterns:
+      - pattern: $KEY = os.getenv("$VAR", "...")
+      - metavariable-pattern:
+          metavariable: $KEY
+          patterns:
+            - pattern-regex: .*(SECRET|KEY|TOKEN).*
+    metadata:
+      category: security
+      cwe: "CWE-798: Use of Hard-coded Credentials"
+      confidence: HIGH
+
+  - id: sql-injection-raw-query
+    languages: [python]
+    message: "Potential SQL injection: avoid raw SQL queries with string formatting"
+    severity: WARNING
+    patterns:
+      - pattern-either:
+          - pattern: $DB.execute(f"...")
+          - pattern: $DB.execute("..." + ...)
+          - pattern: $DB.execute("..." % ...)
+    metadata:
+      category: security
+      cwe: "CWE-89: SQL Injection"
+      confidence: MEDIUM
+
+  - id: weak-password-hash
+    languages: [python]
+    message: "Weak password hashing detected. Use bcrypt, argon2, or scrypt with proper parameters."
+    severity: WARNING
+    patterns:
+      - pattern-either:
+          - pattern: hashlib.md5(...)
+          - pattern: hashlib.sha1(...)
+          - pattern: hashlib.sha256($PASSWORD)
+    metadata:
+      category: security
+      cwe: "CWE-916: Use of Password Hash With Insufficient Computational Effort"
+
+  - id: missing-rate-limit-auth
+    languages: [python]
+    message: "Authentication endpoint should have rate limiting to prevent brute force attacks"
+    severity: INFO
+    patterns:
+      - pattern: |
+          @$ROUTER.post("/login", ...)
+          def $FUNC(...):
+              ...
+      - pattern-not: |
+          @$ROUTER.post("/login", ...)
+          @limiter.limit(...)
+          def $FUNC(...):
+              ...
+    metadata:
+      category: security
+      cwe: "CWE-307: Improper Restriction of Excessive Authentication Attempts"
+
+  - id: jwt-no-expiration-check
+    languages: [python]
+    message: "JWT token validation should verify expiration time"
+    severity: WARNING
+    patterns:
+      - pattern: jwt.decode($TOKEN, ..., algorithms=[...])
+      - pattern-not-inside: |
+          try:
+              ...
+              jwt.decode($TOKEN, ..., algorithms=[...])
+              ...
+          except JWTError:
+              ...
+    metadata:
+      category: security
+      cwe: "CWE-613: Insufficient Session Expiration"
+

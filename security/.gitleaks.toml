@@ -1,0 +1,23 @@
+title = "Gitleaks config for secdev-course-template"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allowlist for false positives and test data"
+
+paths = [
+  '''EVIDENCE/''',
+  '''test-artifact/''',
+  '''htmlcov/''',
+]
+
+regexes = [
+  '''TEST_SECRET_DO_NOT_USE''',
+  '''your-secret-key-change-in-production''',
+  '''dummy.*secret''',
+  '''example.*token''',
+]
+
+commits = []
+
