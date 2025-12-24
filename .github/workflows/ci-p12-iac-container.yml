@@ -1,0 +1,202 @@
+name: P12 - IaC & Container Security
+
+on:
+  workflow_dispatch:
+  push:
+    # branches: [main, develop]
+    paths:
+      - 'Dockerfile'
+      - 'iac/**'
+      - 'security/**'
+      - '.github/workflows/ci-p12-iac-container.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-p12-iac-container-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  security-scan:
+    name: Security Scan (Hadolint, Checkov, Trivy)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Ensure evidence dirs
+        run: mkdir -p EVIDENCE/P12
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        run: docker build -t secdev-app:local .
+
+      - name: Run Hadolint
+        run: |
+          docker run --rm -v $PWD:/work hadolint/hadolint \
+            hadolint -f json /work/Dockerfile > EVIDENCE/P12/hadolint_report.json || true
+
+      - name: Run Checkov
+        run: |
+          docker run --rm -v $PWD:/work bridgecrew/checkov \
+            -d /work/iac \
+            -o json \
+            --compact \
+            --config-file /work/security/checkov.yaml > EVIDENCE/P12/checkov_report.json || true
+
+      - name: Run Trivy
+        run: |
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/work aquasec/trivy image \
+            secdev-app:local \
+            --format json \
+            --output /work/EVIDENCE/P12/trivy_report.json || true
+
+      - name: Generate summary
+        run: |
+          python3 << 'EOF'
+          import json
+          from datetime import datetime
+          
+          summary = []
+          summary.append("# P12 - IaC & Container Security Summary\n")
+          summary.append(f"## Обзор результатов сканирования\n\n")
+          summary.append(f"Дата: {datetime.now().strftime('%Y-%m-%d')}\n")
+          summary.append("Артефакт: P12_EVIDENCE\n\n---\n\n")
+          
+          # Hadolint
+          try:
+              with open('EVIDENCE/P12/hadolint_report.json', 'r') as f:
+                  hadolint = json.load(f)
+              issues = len(hadolint) if isinstance(hadolint, list) else 0
+              summary.append("## 1. Hadolint - Dockerfile Security Linting\n\n")
+              summary.append(f"**Статус:** {'✅ PASSED' if issues == 0 else '⚠️ WARNINGS FOUND'}\n")
+              summary.append(f"**Отчёт:** `hadolint_report.json`\n\n")
+              summary.append(f"**Результаты:**\n")
+              summary.append(f"- Найдено проблем: **{issues}**\n")
+              if issues == 0:
+                  summary.append("- Dockerfile соответствует лучшим практикам безопасности\n")
+          except Exception as e:
+              summary.append(f"## 1. Hadolint\n\n**Ошибка:** Не удалось прочитать отчёт\n\n")
+          
+          # Checkov
+          summary.append("---\n\n## 2. Checkov - Infrastructure as Code Security\n\n")
+          try:
+              with open('EVIDENCE/P12/checkov_report.json', 'r') as f:
+                  checkov = json.load(f)
+              s = checkov.get('summary', {})
+              passed = s.get('passed', 0)
+              failed = s.get('failed', 0)
+              skipped = s.get('skipped', 0)
+              resources = s.get('resource_count', 0)
+              errors = s.get('parsing_errors', 0)
+              
+              summary.append(f"**Статус:** {'✅ PASSED' if failed == 0 else '⚠️ WARNINGS FOUND'}\n")
+              summary.append(f"**Отчёт:** `checkov_report.json`\n\n")
+              summary.append(f"**Результаты:**\n")
+              summary.append(f"- **Passed:** {passed} проверок\n")
+              summary.append(f"- **Failed:** {failed} проверок\n")
+              summary.append(f"- **Skipped:** {skipped}\n")
+              summary.append(f"- **Resource count:** {resources}\n")
+              summary.append(f"- **Parsing errors:** {errors}\n\n")
+              
+              if failed > 0:
+                  summary.append("### Найденные проблемы:\n\n")
+                  results = checkov.get('results', {})
+                  failed_checks = results.get('failed_checks', [])
+                  for i, check in enumerate(failed_checks[:10], 1):
+                      summary.append(f"{i}. **{check.get('check_id', 'N/A')}** - {check.get('check_name', 'N/A')}\n")
+                      summary.append(f"   - **Файл:** {check.get('file_path', 'N/A').replace('/work/iac/', 'iac/')}\n")
+                      summary.append(f"   - **Ресурс:** {check.get('resource', 'N/A')}\n")
+                      if check.get('guideline'):
+                          summary.append(f"   - **Guideline:** {check.get('guideline', 'N/A')}\n")
+                      summary.append("\n")
+          except Exception as e:
+              summary.append(f"**Ошибка:** Не удалось прочитать отчёт: {e}\n\n")
+          
+          # Trivy
+          summary.append("---\n\n## 3. Trivy - Container Image Vulnerability Scanning\n\n")
+          try:
+              with open('EVIDENCE/P12/trivy_report.json', 'r') as f:
+                  trivy = json.load(f)
+              
+              results = trivy.get('Results', [])
+              total_vulns = 0
+              crit_high = []
+              
+              for r in results:
+                  vulns = r.get('Vulnerabilities', [])
+                  total_vulns += len(vulns)
+                  for v in vulns:
+                      if v.get('Severity') in ['CRITICAL', 'HIGH']:
+                          crit_high.append(v)
+              
+              summary.append(f"**Статус:** {'✅ PASSED' if total_vulns == 0 else '⚠️ VULNERABILITIES FOUND'}\n")
+              summary.append(f"**Отчёт:** `trivy_report.json`\n\n")
+              summary.append(f"**Результаты:**\n")
+              summary.append(f"- **Всего уязвимостей:** {total_vulns}\n")
+              for r in results:
+                  class_name = r.get('Class', 'N/A')
+                  vuln_count = len(r.get('Vulnerabilities', []))
+                  if vuln_count > 0:
+                      summary.append(f"- **{class_name}:** {vuln_count} уязвимостей\n")
+              summary.append(f"- **Критичные/Высокие:** {len(crit_high)}\n\n")
+              
+              if crit_high:
+                  summary.append("### Критичные/Высокие уязвимости:\n\n")
+                  for i, v in enumerate(crit_high[:5], 1):
+                      summary.append(f"{i}. **{v.get('Severity', 'N/A')}: {v.get('VulnerabilityID', 'N/A')}** - {v.get('PkgName', 'N/A')}\n")
+                      summary.append(f"   - **Версия:** {v.get('InstalledVersion', 'N/A')}\n")
+                      if v.get('Title'):
+                          summary.append(f"   - **Описание:** {v.get('Title', 'N/A')}\n")
+                      summary.append("\n")
+          except Exception as e:
+              summary.append(f"**Ошибка:** Не удалось прочитать отчёт: {e}\n\n")
+          
+          # Statistics
+          summary.append("---\n\n## Статистика\n\n")
+          summary.append("| Инструмент | Статус | Найдено проблем |\n")
+          summary.append("|------------|--------|-----------------|\n")
+          
+          try:
+              with open('EVIDENCE/P12/hadolint_report.json', 'r') as f:
+                  hadolint = json.load(f)
+              h_issues = len(hadolint) if isinstance(hadolint, list) else 0
+              h_status = "✅ PASS" if h_issues == 0 else "⚠️ WARN"
+              summary.append(f"| Hadolint   | {h_status} | {h_issues}               |\n")
+          except:
+              summary.append("| Hadolint   | ❌ ERROR | N/A               |\n")
+          
+          try:
+              with open('EVIDENCE/P12/checkov_report.json', 'r') as f:
+                  checkov = json.load(f)
+              c_failed = checkov.get('summary', {}).get('failed', 0)
+              c_status = "✅ PASS" if c_failed == 0 else "⚠️ WARN"
+              summary.append(f"| Checkov    | {c_status} | {c_failed}              |\n")
+          except:
+              summary.append("| Checkov    | ❌ ERROR | N/A              |\n")
+          
+          try:
+              with open('EVIDENCE/P12/trivy_report.json', 'r') as f:
+                  trivy = json.load(f)
+              t_total = sum(len(r.get('Vulnerabilities', [])) for r in trivy.get('Results', []))
+              t_status = "✅ PASS" if t_total == 0 else "⚠️ WARN"
+              summary.append(f"| Trivy      | {t_status} | {t_total}              |\n")
+          except:
+              summary.append("| Trivy      | ❌ ERROR | N/A              |\n")
+          
+          with open('EVIDENCE/P12/summary.md', 'w') as f:
+              f.write(''.join(summary))
+          
+          print("Summary generated successfully")
+          EOF
+
+      - name: Upload P12 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: P12_EVIDENCE
+          path: EVIDENCE/P12
+          retention-days: 30
